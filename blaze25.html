@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500&family=Lato:wght@300;400&family=Roboto:wght@100;400;500&display=swap" rel="stylesheet">
+  <style>
+
+    
+    body {
+      overflow: hidden;
+      //font-family: 'Geologica', sans-serif;
+      //font-family: 'Lato', sans-serif;
+      //font-family: 'Roboto', sans-serif;
+      background-color: black;
+      margin: 1;
+      padding: 0;
+      //font-weight: bold;
+      font-family: "Roboto", sans-serif;
+    }
+
+    #mainContainer {
+      display: flex;
+      height: 100vh;
+    }
+
+    #leftContainer {
+      width: 1115px;
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #upperDiv {
+      background-color: rgba(85, 85, 85, 1);
+      //background-image: url({{ url_for('static', filename='bg-pat2.png') }})
+      padding: 0px;
+      width: 98.20%;
+      height: 210px;
+      border: 10px solid rgba(85, 85, 85, 1);
+      display: flex;
+      align-items: center;
+    }
+
+    #imageContainer {
+      display: flex;
+      align-items: center;
+    }
+
+    #imageContainer img {
+      width: 100px;
+      height: 100px;
+    }
+
+    #labelsContainer {
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+
+    label {
+      width: 15px;
+    }
+
+    #textboxesContainer {
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+
+    input[type="text"] {
+      width: 15px;
+    }
+
+    #grid {
+       border: 10px solid rgba(85, 85, 85, 1);
+      width: 100%;
+      padding: 5px 0;
+      box-sizing: border-box;
+      height: calc(100vh - 250px);
+      overflow-y: scroll;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    #rightDiv {
+      border: 10px solid rgba(85, 85, 85, 1);
+      background-color: rgba(24, 25, 27, 1);
+      flex-grow: 1;
+      height: 585px;
+      margin-left: 10px;
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+
+    h1 {
+      color: white;
+      text-align: center;
+    }
+
+    .btn-white {
+      //padding: 10px 20px;
+      font-size: 14px;
+      margin: 2px 1px;
+      border: 1px solid gray;
+      background-color: white;
+      color: red;
+      text-align: center;
+      width: 50px;
+      height: 30px;
+      position: relative;
+    }
+
+    .btn-white:before {
+      content: "";
+      width: 54px;
+      height: 34px;
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border: 2px solid red;
+      z-index: -1;
+    }
+
+    .btn-red {
+      background-color: red;
+      color: white;
+      border: 1px solid gray;
+      padding: 10px 20px;
+      width: 60%;
+    }
+
+
+  #txtBalance {
+      background-color: black;
+      color: white;
+      border: 1px solid gray;
+      padding: 10px 20px;
+      font-size: 15px;
+      width: 60%;
+      text-align: left;
+    }
+
+    #txtQuantia {
+      background-color: black;
+      color: white;
+      border: 1px solid gray;
+      padding: 10px 20px;
+      font-size: 12px;
+      width: 40%;
+      text-align: left;
+    }
+
+  
+
+
+    .progress-bar {
+      height: 20px;
+      width: 80%;
+      background-color: grey;
+      position: relative;
+    }
+
+    .progress-bar-full {
+      height: 100%;
+      width: 70%;
+      background-color: red;
+    }
+
+    .progress-bar-text {
+      font-size: 10px;
+      line-height: 20px;
+      color: white;
+      text-align: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    #blazeImg {
+      width: 120px;
+      height: 60px;
+    }
+
+    #resultadoImg {
+      width: 180px;
+      height: 140px;
+      border: 1px solid white;
+    }
+
+    @media (max-width: 768px) {
+      #mainContainer {
+        flex-direction: column;
+      }
+      #leftContainer, #rightDiv {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="mainContainer">
+    <div id="leftContainer">
+      <div id="upperDiv">
+        <div
+          <div style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); background-size: cover; width: 100%; height: 100%; display: flex; align-items: center; justify-content: flex-start;">
+
+
+          <div id="imageContainer">
+          <img
+          src="{{ url_for('static', filename='invictus22.png') }}"
+          alt="Invictus"
+          style="width: 210px; height: 210px; margin-left: 10px;"
+          />
+          </div>
+
+          <div
+            id="labelsTextboxesContainer"
+            style="padding: 100px; border: 2px solid grey; position: relative;"
+          >
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 6px; left: 11px; width: 110px; height: 20px;"
+            >
+              Banca Inicial
+            </label>
+            <input
+            id="txtBancaInicial"
+            type="text"
+            placeholder=""
+            value="{{ txtBancaInicial }}"
+            style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white;font-size: 12px; border: 1px solid grey; position: absolute; top: 5px; left: 112px; width: 70px; height: 16px;"
+            />
+
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 34px; left: 11px; width: 110px;"
+            >
+              BancaAtual
+            </label>
+            <input
+              id="txtBancaAtual"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px; border: 1px solid grey; position: absolute; top: 32px; left: 112px; width: 70px;"
+            />
+            <label
+              style="color: white; font-size: 15px; position: absolute; top: 62px; left: 11px; width: 110px;"
+            >
+              Entrada Inicial
+            </label>
+            <input
+              id="txtEntradaInicial"
+              type="text"
+              placeholder=""
+	      value="{{ txtEntradaInicial }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 60px; left: 112px; width: 70px;"
+            />
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 90px; left: 11px; width: 110px;"
+            >
+              Meta Brancos
+            </label>
+            <input
+              id="txtMetaBrancos"
+              type="text"
+              placeholder=""
+	      value="{{ txtMetaBrancos }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 88px; left: 112px; width: 70px;text-align: center;"
+            />
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 119px; left: 11px; width: 110px;"
+            >
+              Greens Branco
+            </label>
+            <input
+              id="txtGreenBrancos"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 118px; left: 112px; width: 70px;text-align: center;"
+            />
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 149px; left: 11px; width: 110px;"
+            >
+              Previsão R$
+            </label>
+            <input
+              id="txtPrevisão"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 147px; left: 112px; width: 70px;"
+            />
+            <label
+              style="color: white; font-size: 15px; position: absolute; top: 177px; left: 11px; width: 110px;"
+            >
+              Resultado R$
+            </label>
+            <input
+              id="txtResultado"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 175px; left: 112px; width: 70px;"
+            />
+          </div>
+          <div
+            id="labelsTextboxesContainer2"
+
+ 	   style=" width: 260px; height: 200px;; border: 2px solid grey; position: relative; margin-left: 5px;"
+          >
+            
+	  <label
+              style="color: white; font-size: 17px;  position: absolute; top: 6px; left: 76px; width: 260px; height: 20px;"
+            >
+              Previsão Anual
+            </label>
+
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 34px; left: 6px; width: 110px; height: 20px; background-image: url({{ url_for('static', filename='bg-pat2.png') }});"
+            >
+              Mês 1
+            </label>
+            <input
+              id="txtMes1"
+              type="text"
+              placeholder=""
+	      value="{{ txtMes1 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 32px; left: 50px; width: 70px; height: 16px;"
+            />
+
+ 	    <label
+              style="color: white; font-size: 15px; position: absolute; top: 34px; left: 130px; width: 110px; height: 20px; background-color: black;"
+            >
+              Mês 7
+            </label>
+	    <input
+              id="txtMes7"
+              type="text"
+              placeholder=""
+              value="{{ txtMes7 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 32px; left: 180px; width: 70px; height: 16px;"
+            />
+
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 62px; left: 6px; width: 110px;"
+            >
+              Mês 2
+            </label>
+            <input
+              id="txtMes2"
+              type="text"
+              placeholder=""
+              value="{{ txtMes2 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 60px; left: 50px; width: 70px;"
+            />
+
+	    <label
+              style="color: white; font-size: 15px;  position: absolute; top: 62px; left: 130px; width: 110px; height: 20px; background-color: black;"
+            >
+              Mês 8
+            </label>
+	    <input
+              id="txtMes8"
+              type="text"
+              placeholder=""
+              value="{{ txtMes8 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px; border: 1px solid grey; position: absolute; top: 60px; left: 180px; width: 70px; height: 16px;"
+            />
+
+
+
+            <label
+              style="color: white; font-size: 15px; position: absolute; top: 90px; left: 6px; width: 110px;"
+            >
+              Mês 3
+            </label>
+            <input
+              id="txtMes3"
+              type="text"
+              placeholder=""
+              value="{{ txtMes3 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 88px; left: 50px; width: 70px;"
+            />
+
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 90px; left: 130px; width: 110px; height: 20px; background-color: black;"
+            >
+              Mês 9
+            </label>
+	    <input
+              id="txtMes9"
+              type="text"
+              placeholder=""
+              value="{{ txtMes9 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 88px; left: 180px; width: 70px; height: 16px;"
+            />
+
+
+
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 119px; left: 6px; width: 110px;"
+            >
+              Mês 4
+            </label>
+            <input
+              id="txtMes4"
+              type="text"
+              placeholder=""
+              value="{{ txtMes4 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 118px; left: 50px; width: 70px;"
+            />
+
+	    <label
+              style="color: white; font-size: 15px;  position: absolute; top: 119px; left: 130px; width: 110px; height: 20px; background-color: black;"
+            >
+              Mês 10
+            </label>
+	    <input
+              id="txtMes10"
+              type="text"
+              placeholder=""
+              value="{{ txtMes10 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 118px; left: 180px; width: 70px; height: 16px;"
+            />
+
+            <label
+              style="color: white; font-size: 15px; position: absolute; top: 149px; left: 6px; width: 110px;"
+            >
+              Mês 5
+            </label>
+            <input
+              id="txtMes5"
+              type="text"
+              placeholder=""
+              value="{{ txtMes5 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 147px; left: 50px; width: 70px;"
+            />
+
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 149px; left: 130px; width: 110px; height: 20px; background-color: black;"
+            >
+              Mês 11
+            </label>
+	    <input
+              id="txtMes11"
+              type="text"
+              placeholder=""
+              value="{{ txtMes11 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 147px; left: 180px; width: 70px; height: 16px;"
+            />
+
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 177px; left: 6px; width: 110px;"
+            >
+              Mês 6
+            </label>
+            <input
+              id="txtMes6"
+              type="text"
+              placeholder=""
+              value="{{ txtMes6 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px; border: 1px solid grey; position: absolute; top: 175px; left: 50px; width: 70px;"
+            />
+
+
+            <label
+              style="color: white; font-size: 15px;  position: absolute; top: 177px; left: 130px; width: 110px; height: 20px; background-color: black;"
+            >
+              Mês 12
+            </label>
+	    <input
+              id="txtMes12"
+              type="text"
+              placeholder=""
+              value="{{ txtMes12 }}"
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 12px;  border: 1px solid grey; position: absolute; top: 175px; left: 180px; width: 70px; height: 16px;"
+            />
+
+            
+          </div>
+
+
+
+
+<div
+            id="labelsTextboxesContainer3"
+
+ 	   style=" width: 390px; height: 200px;; border: 2px solid grey; position: relative; margin-left: 5px;"
+          >
+            
+	    <label
+              style="color: white; font-size: 18px;  position: absolute; top: 6px; left: 160px; width: 110px; height: 20px;"
+            >
+              Estatística
+            </label>
+
+	    <label
+              style="color: white; font-size: 10px; position: absolute; top: 35px; left: 50px; width: 110px; height: 10px; "
+            >
+              Branco
+            </label>
+
+	    <label
+              style="color: white; font-size: 10px;  position: absolute; top: 35px; left: 95px; width: 110px; height: 10px; "
+            >
+              Valor
+            </label>
+
+
+	    <label
+              style="color: white; font-size: 12px;  position: absolute; top: 50px; left: 11px; width: 110px; height: 10px; "
+            >
+              Dia 1
+            </label>
+            <input
+              id="txtB1"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 50px; left: 50px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor1"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 50px; left: 85px; width: 40px; height: 10px;"
+            />
+
+	    <label
+              style="color: white; font-size: 12px;  position: absolute; top: 65px; left: 11px; width: 110px; height: 10px;"
+            >
+              Dia 2
+            </label>
+            <input
+              id="txtB2"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 65px; left: 50px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor2"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 65px; left: 85px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 80px; left: 11px; width: 110px; height: 10px;"
+            >
+              Dia 3
+            </label>
+            <input
+              id="txtB3"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 80px; left: 50px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor3"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 80px; left: 85px; width: 40px; height: 10px;"
+            />
+
+	    <label
+              style="color: white; font-size: 12px;  position: absolute; top: 95px; left: 11px; width: 110px; height: 10px;"
+            >
+              Dia 4
+            </label>
+            <input
+              id="txtB4"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;border: 1px solid grey; position: absolute; top: 95px; left: 50px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor4"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 95px; left: 85px; width: 40px; height: 10px;"
+            />
+
+
+
+
+
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 110px; left: 11px; width: 110px; height: 10px; "
+            >
+              Dia 5
+            </label>
+            <input
+              id="txtB5"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px; border: 1px solid grey; position: absolute; top: 110px; left: 50px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor5"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 110px; left: 85px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px; position: absolute; top: 125px; left: 11px; width: 110px;height: 10px;"
+            >
+              Dia 6
+            </label>
+            <input
+              id="txtB6"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 125px; left: 50px; width: 25px;height: 10px;text-align: center;"
+            />
+
+	    
+	    <input
+              id="txtValor6"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 125px; left: 85px; width: 40px; height: 10px;"
+            />
+
+
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 140px; left: 11px; width: 110px;height: 10px;"
+            >
+              Dia 7
+            </label>
+            <input
+              id="txtB7"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 140px; left: 50px; width: 25px;height: 10px;text-align: center;"
+            />
+
+            
+	    <input
+              id="txtValor7"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px; border: 1px solid grey; position: absolute; top: 140px; left: 85px; width: 40px; height: 10px;"
+            />
+
+
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 155px; left: 11px; width: 110px;height: 10px;"
+            >
+              Dia 8
+            </label>
+            <input
+              id="txtB8"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 155px; left: 50px; width: 25px;height: 10px;text-align: center;"
+            />
+
+	    
+	    <input
+              id="txtValor8"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 155px; left: 85px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 170px; left: 11px; width: 110px;height: 10px;"
+            >
+              Dia 9 
+            </label>
+            <input
+              id="txtB9"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 170px; left: 50px; width: 25px;height: 10px;text-align: center;"
+            />
+
+            
+	    <input
+              id="txtValor9"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 170px; left: 85px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 185px; left: 11px; width: 110px;height: 10px;"
+            >
+              Dia 10
+            </label>
+            <input
+              id="txtB10"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 185px; left: 50px; width: 25px;height: 10px;text-align: center;"
+            />
+
+
+            
+	    <input
+              id="txtValor10"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px; border: 1px solid grey; position: absolute; top: 185px; left: 85px; width: 40px; height: 10px;"
+            />
+
+
+
+
+	    <label
+              style="color: white; font-size: 10px;  position: absolute; top: 35px; left: 175px; width: 110px; height: 10px;"
+            >
+              Branco
+            </label>
+
+	    <label
+              style="color: white; font-size: 10px;  position: absolute; top: 35px; left: 218px; width: 110px; height: 10px; "
+            >
+              Valor
+            </label>
+
+
+	    <label
+              style="color: white; font-size: 12px;  position: absolute; top: 50px; left: 135px; width: 110px; height: 10px;"
+            >
+              Dia 11
+            </label>
+            <input
+              id="txtB11"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 50px; left: 175px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor11"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px; border: 1px solid grey; position: absolute; top: 50px; left: 210px; width: 40px; height: 10px;"
+            />
+
+	    <label
+              style="color: white; font-size: 12px;  position: absolute; top: 65px; left: 135px; width: 110px; height: 10px; "
+            >
+              Dia 12
+            </label>
+            <input
+              id="txtB12"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px; border: 1px solid grey; position: absolute; top: 65px; left: 175px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor12"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 65px; left: 210px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 80px; left: 135px; width: 110px; height: 10px; "
+            >
+              Dia 13
+            </label>
+            <input
+              id="txtB13"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 80px; left: 175px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor13"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 80px; left: 210px; width: 40px; height: 10px;"
+            />
+
+	    <label
+              style="color: white; font-size: 12px;  position: absolute; top: 95px; left: 135px; width: 110px; height: 10px; "
+            >
+              Dia 14
+            </label>
+            <input
+              id="txtB14"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px; border: 1px solid grey; position: absolute; top: 95px; left: 175px; width: 25px; height: 10px;text-align: center;"
+            />
+ 
+	    <input
+              id="txtValor14"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 95px; left: 210px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px; position: absolute; top: 110px; left: 135px; width: 110px; height: 10px; "
+            >
+              Dia 15
+            </label>
+            <input
+              id="txtB15"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px; border: 1px solid grey; position: absolute; top: 110px; left: 175px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor15"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px; border: 1px solid grey; position: absolute; top: 110px; left: 210px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px; position: absolute; top: 125px; left: 135px; width: 110px;height: 10px;"
+            >
+              Dia 16
+            </label>
+            <input
+              id="txtB16"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 125px; left: 175px; width: 25px;height: 10px;text-align: center;"
+            />
+
+	    
+	    <input
+              id="txtValor16"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 125px; left: 210px; width: 40px; height: 10px;"
+            />
+
+
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 140px; left: 135px; width: 110px;height: 10px; "
+            >
+              Dia 17
+            </label>
+            <input
+              id="txtB17"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 140px; left: 175px; width: 25px;height: 10px;text-align: center;"
+            />
+
+            
+	    <input
+              id="txtValor17"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 140px; left: 210px; width: 40px; height: 10px;"
+            />
+
+
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 155px; left: 135px; width: 110px;height: 10px; "
+            >
+              Dia 18
+            </label>
+            <input
+              id="txtB18"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 155px; left: 175px; width: 25px;height: 10px;text-align: center;"
+            />
+
+	    
+	    <input
+              id="txtValor18"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 155px; left: 210px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 170px; left: 135px; width: 110px;height: 10px; "
+            >
+              Dia 19 
+            </label>
+            <input
+              id="txtB19"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px; border: 1px solid grey; position: absolute; top: 170px; left: 175px; width: 25px;height: 10px;text-align: center;"
+            />
+
+            
+	    <input
+              id="txtValor19"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px; border: 1px solid grey; position: absolute; top: 170px; left: 210px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 185px; left: 135px; width: 110px;height: 10px;"
+            >
+              Dia 20
+            </label>
+            <input
+              id="txtB20"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 185px; left: 175px; width: 25px;height: 10px;text-align: center;"
+            />
+	    <input
+              id="txtValor20"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 185px; left: 210px; width: 40px; height: 10px;"
+            />
+
+
+	    <label
+              style="color: white; font-size: 10px; position: absolute; top: 35px; left: 300px; width: 40px; height: 10px;"
+            >
+              Branco
+            </label>
+
+	    <label
+              style="color: white; font-size: 10px;  position: absolute; top: 35px; left: 343px; width: 40px; height: 10px; "
+            >
+              Valor
+            </label>
+
+
+	    <label
+              style="color: white; font-size: 12px;  position: absolute; top: 50px; left: 260px; width: 110px; height: 10px;"
+            >
+              Dia 21
+            </label>
+            <input
+              id="txtB21"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 50px; left: 300px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor21"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 50px; left: 335px; width: 40px; height: 10px;"
+            />
+
+	    <label
+              style="color: white; font-size: 12px; position: absolute; top: 65px; left: 260px; width: 110px; height: 10px;"
+            >
+              Dia 22
+            </label>
+            <input
+              id="txtB22"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 65px; left: 300px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor22"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 65px; left: 335px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 80px; left: 260px; width: 110px; height: 10px;"
+            >
+              Dia 23
+            </label>
+            <input
+              id="txtB23"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 80px; left: 300px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor23"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 80px; left: 335px; width: 40px; height: 10px;"
+            />
+
+	    <label
+              style="color: white; font-size: 12px;  position: absolute; top: 95px; left: 260px; width: 110px; height: 10px; "
+            >
+              Dia 24
+            </label>
+            <input
+              id="txtB24"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 95px; left: 300px; width: 25px; height: 10px;text-align: center;"
+            />
+ 
+	    <input
+              id="txtValor24"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white;  font-weight: bold; border: 1px solid grey; position: absolute; top: 95px; left: 335px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px; position: absolute; top: 110px; left: 260px; width: 110px; height: 10px; "
+            >
+              Dia 25
+            </label>
+            <input
+              id="txtB25"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 110px; left: 300px; width: 25px; height: 10px;text-align: center;"
+            />
+
+ 	    
+	    <input
+              id="txtValor25"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 110px; left: 335px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 125px; left: 260px; width: 110px;height: 10px;"
+            >
+              Dia 26
+            </label>
+            <input
+              id="txtB26"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 125px; left: 300px; width: 25px;height: 10px;text-align: center;"
+            />
+
+	    
+	    <input
+              id="txtValor26"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 125px; left: 335px; width: 40px; height: 10px;"
+            />
+
+
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 140px; left: 260px; width: 110px;height: 10px; "
+            >
+              Dia 27
+            </label>
+            <input
+              id="txtB27"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 140px; left: 300px; width: 25px;height: 10px;text-align: center;"
+            />
+
+            
+	    <input
+              id="txtValor27"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 140px; left: 335px; width: 40px; height: 10px;"
+            />
+
+
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 155px; left: 260px; width: 110px;height: 10px; "
+            >
+              Dia 28
+            </label>
+            <input
+              id="txtB28"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 155px; left: 300px; width: 25px;height: 10px;text-align: center;"
+            />
+
+	    
+	    <input
+              id="txtValor28"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 155px; left: 335px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 170px; left: 260px; width: 110px;height: 10px; "
+            >
+              Dia 29 
+            </label>
+            <input
+              id="txtB29"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 170px; left: 300px; width: 25px;height: 10px;text-align: center;"
+            />
+
+            
+	    <input
+              id="txtValor29"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 170px; left: 335px; width: 40px; height: 10px;"
+            />
+
+            <label
+              style="color: white; font-size: 12px;  position: absolute; top: 185px; left: 260px; width: 110px;height: 10px; "
+            >
+              Dia 30
+            </label>
+            <input
+              id="txtB30"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 185px; left: 300px; width: 25px;height: 10px;text-align: center;"
+            />
+	    <input
+              id="txtValor30"
+              type="text"
+              placeholder=""
+              style="background-image: url({{ url_for('static', filename='bg-pat2.png') }}); color: white; font-size: 10px;  border: 1px solid grey; position: absolute; top: 185px; left: 335px; width: 40px; height: 10px;"
+            />
+
+
+
+
+
+
+            
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+      <div id="grid"></div>
+    </div>
+    <div id="rightDiv">
+      <img id="blazeImg" src="{{ url_for('static', filename='blaze.svg') }}" alt="Blaze">
+
+      <input id="txtBalance" type="text" placeholder="">
+	<div id="imageContainer">
+    <img
+        src="{{ url_for('static', filename='real.svg') }}"
+        alt="Real"
+        style="width: 22px; height: 22px; margin-left: 10px;position: absolute; top: 102px;left: 1270px;"
+       />
+      </div>
+
+
+      <input id="txtQuantia" type="text" placeholder="Quantia      R$" margin-left: 10px;>
+      
+      <button id="btnX14White" class="btn-white"><b>x14</b></button>
+      <button id="btnEsperando" class="btn-red" onclick="this.style.opacity = 0.5; setTimeout(() => this.style.opacity = 1, 1000);">Esperando</button>
+      <div id="progressBar" class="progress-bar">
+        <div id="progressBarFull" class="progress-bar-full"></div>
+        <div id="progressBarText" class="progress-bar-text">Girando em TEMPO</div>
+      </div>
+      <img id="resultadoImg" src="{{ url_for('static', filename='resultado.png') }}" alt="Resultado">
+    </div>
+  </div>
+
+
+  
+       
+
+    <script>
+    const grid = document.getElementById('grid');
+    grid.style.display = 'grid';
+    grid.style.gridTemplateColumns = 'repeat(20, 48px)';
+    grid.style.gridTemplateRows = 'repeat(20, 48px)';
+    grid.style.gridColumnGap = '5px';
+    grid.style.gridRowGap = '20px';
+
+    function getImagePath(number) {
+      if (number == 0) {
+        return "{{ url_for('static', filename='branco2.png') }}";
+      } else if (number >= 1 && number <= 7) {
+        return "{{ url_for('static', filename='testev21.png') }}";
+      } else if (number >= 8 && number <= 14) {
+        return "{{ url_for('static', filename='preto113.png') }}";
+      } else {
+        return "{{ url_for('static', filename='invictus_logo.png') }}"; // substitua 'default.png' pela imagem padrão
+      }
+    }
+
+    for (let i = 0; i < 400; i++) {
+      const container = document.createElement('div');
+      const square = document.createElement('div');
+      const number = document.createElement('p');
+      const time = document.createElement('p');
+      container.style.width = '70px';
+      container.style.height = '80px';
+      container.style.position = 'relative';
+      square.style.width = '47px';
+      square.style.height = '47px';
+      square.style.borderRadius = '50%';
+      square.style.display = 'flex';
+      square.style.alignItems = 'center';
+      square.style.justifyContent = 'center';
+      square.style.position = 'absolute';
+      square.style.top = '0';
+      square.style.left = '50%';
+      square.style.transform = 'translateX(-50%)';
+      const img = document.createElement('img');
+      img.src = "{{ url_for('static', filename='branco2.png') }}"; // substitua 'default.png' pela imagem padrão
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.position = 'absolute';
+      square.appendChild(img);
+      number.textContent = '0';
+      number.style.color = 'white';
+      number.style.fontSize = '18px';
+      number.style.position = 'relative';
+      number.style.zIndex = '2';
+      time.textContent = '00:00';
+      time.style.color = 'white';
+      time.style.fontSize = '14px';
+      time.style.textAlign = 'center';
+      time.style.position = 'absolute';
+      time.style.bottom = '3px';
+      time.style.left = '50%';
+      time.style.transform = 'translateX(-50%)';
+      time.style.width = '100%';
+      time.style.zIndex = '1';
+      square.appendChild(number);
+      container.appendChild(square);
+      container.appendChild(time);
+      grid.appendChild(container);
+    }
+
+   // Lista de IDs dos campos de entrada
+const inputIds = [
+  'txtBancaInicial',
+  'txtBancaAtual',
+  'txtEntradaInicial',
+  'txtPrevisão',
+  'txtResultado',
+  'txtQuantia',
+  'txtBalance',
+  ...Array.from({ length: 12 }, (_, i) => `txtMes${i + 1}`),
+  ...Array.from({ length: 30 }, (_, i) => `txtValor${i + 1}`),
+];
+
+// Função para formatar um número para o formato de moeda brasileiro
+function formatNumber(value) {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'decimal',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
+// Função para limpar a formatação de um número
+function cleanNumber(value) {
+  return value.replace(/\./g, '').replace(',', '.');
+}
+
+// Função para verificar se um valor é um número válido
+function isValidNumber(value) {
+  return !isNaN(value) && !value.includes('.');
+}
+
+// Função para lidar com o evento de entrada
+function handleInput(event) {
+  let value = cleanNumber(event.target.value);
+  if (isValidNumber(value)) {
+    event.target.value = formatNumber(parseFloat(value));
+  } else {
+    event.target.value = '';
+  }
+}
+
+// Adicionar o evento de entrada a todos os campos de entrada
+inputIds.forEach((id) => {
+  const input = document.getElementById(id);
+  if (input) {
+    input.addEventListener('input', handleInput);
+  }
+});
+
+
+
+  </script>
+
+<script src="{{ url_for('static', filename='socket.io.min.js') }}"></script>
+<script>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function() {
+        socket.emit('my event', {data: 'I\'m connected!'});
+    });
+    socket.on('after connect', function(msg) {
+        console.log('received message: ' + msg.data);
+    });
+    socket.on('new sequence', function(msg) {
+        console.log('received new sequence: ' + JSON.stringify(msg.sequence));
+        let sequence = msg.sequence;
+//////////////////////////////
+        // Repita a sequência até que ela tenha 601 elementos
+        //while (sequence.length < 601) {
+           // sequence = sequence.concat(sequence);
+      //  }
+      //  sequence = sequence.slice(0, 601);  // Garanta que a sequência tenha exatamente 601 elementos
+          const containers = document.querySelectorAll('#grid > div');
+            for (let i = 0; i < sequence.length; i++) {
+            // Ajuste o índice para preencher os quadrados da direita para a esquerda e de cima para baixo
+            const index = Math.floor(i / 20) * 20 + 19 - (i % 20);
+            const container = containers[index];
+            const square = container.querySelector('div');
+            const numberElement = square.querySelector('p');
+            const imgElement = square.querySelector('img');
+            const timeElement = container.querySelectorAll('p')[1]; // O segundo elemento 'p' é o elemento de tempo
+            const number = sequence[i][0];
+            const time = sequence[i][1];
+
+            // Atualize o número
+            numberElement.textContent = number;
+
+            // Atualize a imagem
+            const newImgPath = getImagePath(number);
+            imgElement.src = newImgPath;
+
+            // Atualize o tempo
+            timeElement.textContent = time;
+        }
+    });
+</script>
+
+
+
+
+</body>
+</html>
+
