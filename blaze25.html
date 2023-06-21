@@ -106,22 +106,22 @@
     }
 
     .btn-white {
-      //padding: 10px 20px;
+      padding: 10px 20px;
       font-size: 14px;
       margin: 2px 1px;
       border: 1px solid gray;
       background-color: white;
       color: red;
       text-align: center;
-      width: 50px;
-      height: 30px;
+      //width: 50px;
+      //height: 30px;
       position: relative;
     }
 
     .btn-white:before {
       content: "";
-      width: 54px;
-      height: 34px;
+      //width: 54px;
+      //height: 34px;
       position: absolute;
       top: -5px;
       left: -5px;
@@ -1194,6 +1194,13 @@
         <div id="progressBarText" class="progress-bar-text">Girando em TEMPO</div>
       </div>
       <img id="resultadoImg" src="{{ url_for('static', filename='resultado.png') }}" alt="Resultado">
+      <button onclick="location.href='/signin'">Logout</button>
+
+
+
+
+
+
     </div>
   </div>
 
@@ -1217,7 +1224,7 @@
       } else if (number >= 8 && number <= 14) {
         return "{{ url_for('static', filename='preto113.png') }}";
       } else {
-        return "{{ url_for('static', filename='invictus_logo.png') }}"; // substitua 'default.png' pela imagem padrão
+        return "{{ url_for('static', filename='default.png') }}"; // substitua 'default.png' pela imagem padrão
       }
     }
 
@@ -1240,12 +1247,12 @@
       square.style.left = '50%';
       square.style.transform = 'translateX(-50%)';
       const img = document.createElement('img');
-      img.src = "{{ url_for('static', filename='branco2.png') }}"; // substitua 'default.png' pela imagem padrão
+      img.src = "{{ url_for('static', filename='invictus_logo.png') }}"; // substitua 'default.png' pela imagem padrão
       img.style.width = '100%';
       img.style.height = '100%';
       img.style.position = 'absolute';
       square.appendChild(img);
-      number.textContent = '0';
+      number.textContent = '';
       number.style.color = 'white';
       number.style.fontSize = '18px';
       number.style.position = 'relative';
@@ -1266,56 +1273,7 @@
       grid.appendChild(container);
     }
 
-   // Lista de IDs dos campos de entrada
-const inputIds = [
-  'txtBancaInicial',
-  'txtBancaAtual',
-  'txtEntradaInicial',
-  'txtPrevisão',
-  'txtResultado',
-  'txtQuantia',
-  'txtBalance',
-  ...Array.from({ length: 12 }, (_, i) => `txtMes${i + 1}`),
-  ...Array.from({ length: 30 }, (_, i) => `txtValor${i + 1}`),
-];
-
-// Função para formatar um número para o formato de moeda brasileiro
-function formatNumber(value) {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'decimal',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value);
-}
-
-// Função para limpar a formatação de um número
-function cleanNumber(value) {
-  return value.replace(/\./g, '').replace(',', '.');
-}
-
-// Função para verificar se um valor é um número válido
-function isValidNumber(value) {
-  return !isNaN(value) && !value.includes('.');
-}
-
-// Função para lidar com o evento de entrada
-function handleInput(event) {
-  let value = cleanNumber(event.target.value);
-  if (isValidNumber(value)) {
-    event.target.value = formatNumber(parseFloat(value));
-  } else {
-    event.target.value = '';
-  }
-}
-
-// Adicionar o evento de entrada a todos os campos de entrada
-inputIds.forEach((id) => {
-  const input = document.getElementById(id);
-  if (input) {
-    input.addEventListener('input', handleInput);
-  }
-});
-
+   
 
 
   </script>
@@ -1351,7 +1309,11 @@ inputIds.forEach((id) => {
             const time = sequence[i][1];
 
             // Atualize o número
-            numberElement.textContent = number;
+            if (number != 0) {
+                numberElement.textContent = number;
+            } else {
+                numberElement.textContent = ""; // Deixe em branco se o número for 0
+            }
 
             // Atualize a imagem
             const newImgPath = getImagePath(number);
@@ -1363,6 +1325,88 @@ inputIds.forEach((id) => {
     });
 </script>
 
+<script>
+    function formatarMoeda(inputId) {
+        var elemento = document.getElementById(inputId);
+        var valor = elemento.value;
+
+        // Verificar se o valor já está formatado como uma string de moeda
+        if (!valor.includes(',')) {
+            valor = valor.replace(',', '.');
+            valor = parseFloat(valor);
+
+            if (isNaN(valor)) {
+                elemento.value = '';
+                return;
+            }
+
+            valor = valor.toFixed(2);
+            valor = valor.replace('.', ',');
+            valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+        }
+
+        elemento.value = valor;
+    }
+
+    const inputIds = ['txtBancaInicial', 'txtBancaAtual', 'txtEntradaInicial', 'txtPrevisão', 'txtResultado', 'txtQuantia', 'txtBalance'];
+
+    for (let i = 1; i <= 12; i++) {
+        inputIds.push(`txtMes${i}`);
+    }
+
+    for (let i = 1; i <= 30; i++) {
+        inputIds.push(`txtValor${i}`);
+    }
+
+    inputIds.forEach(id => {
+        const inputElement = document.getElementById(id);
+        if (inputElement) {
+            inputElement.setAttribute('onblur', `formatarMoeda('${id}')`);
+        }
+    });
+</script>
+
+<script>
+    const inputIds = [
+        'txtMes1', 'txtMes2', 'txtMes3', 'txtMes4', 'txtMes5', 'txtMes6', 
+        'txtMes7', 'txtMes8', 'txtMes9', 'txtMes10', 'txtMes11', 'txtMes12', 
+        'txtValor1', 'txtValor2', 'txtValor3', 'txtValor4', 'txtValor5', 
+        'txtValor6', 'txtValor7', 'txtValor8', 'txtValor9', 'txtValor10', 
+        'txtValor11', 'txtValor12', 'txtValor13', 'txtValor14', 'txtValor15', 
+        'txtValor16', 'txtValor17', 'txtValor18', 'txtValor19', 'txtValor20', 
+        'txtValor21', 'txtValor22', 'txtValor23', 'txtValor24', 'txtValor25', 
+        'txtValor26', 'txtValor27', 'txtValor28', 'txtValor29', 'txtValor30'
+    ];
+
+    inputIds.forEach(id => {
+        const inputElement = document.getElementById(id);
+        if (inputElement) {
+            inputElement.readOnly = true;
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputIds = [
+            'txtMes1', 'txtMes2', 'txtMes3', 'txtMes4', 'txtMes5', 'txtMes6', 
+            'txtMes7', 'txtMes8', 'txtMes9', 'txtMes10', 'txtMes11', 'txtMes12', 
+            'txtValor1', 'txtValor2', 'txtValor3', 'txtValor4', 'txtValor5', 
+            'txtValor6', 'txtValor7', 'txtValor8', 'txtValor9', 'txtValor10', 
+            'txtValor11', 'txtValor12', 'txtValor13', 'txtValor14', 'txtValor15', 
+            'txtValor16', 'txtValor17', 'txtValor18', 'txtValor19', 'txtValor20', 
+            'txtValor21', 'txtValor22', 'txtValor23', 'txtValor24', 'txtValor25', 
+            'txtValor26', 'txtValor27', 'txtValor28', 'txtValor29', 'txtValor30'
+        ];
+
+        inputIds.forEach(id => {
+            const inputElement = document.getElementById(id);
+            if (inputElement) {
+                inputElement.readOnly = true;
+            }
+        });
+    });
+</script>
 
 
 
