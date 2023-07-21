@@ -72,6 +72,8 @@ def main():
         # Use o executor para mapear a função get_page_data para cada página
         results = executor.map(get_page_data, reversed(range(1, total_pages)))
 
+    #################### SCRIPT PRONTO ATÉ AQUI ############################################
+
     # Processa os resultados
     for result in results:
         page_rolls, page_times, page_rolls_2, page_times_2 = result
@@ -80,77 +82,77 @@ def main():
         rolls_2.extend(page_rolls_2)
         times_2.extend(page_times_2)
 
-        for roll, created_at_str, created_at_datetime in zip(rolls, times,
-                                                             [datetime.strptime(time, "%H:%M") for time in times]):
-            if roll == 0:
-                if ((created_at_datetime.time() >= dt_time(22, 0) and created_at_datetime.date() == (
-                        datetime.now() - timedelta(days=1)).date()) or (
-                        created_at_datetime.time() < datetime.now().time() and created_at_datetime.date() == datetime.now().date())):
-                    zeros_2.append(roll)
-                    zero_times_2.append(created_at_str)
-                    print(f"Zero encontrado em {created_at_str}")
-                    multiplos_14 = []
-
-                    # Adicione os múltiplos de 14 a esta lista
-                    for i in range(14, 262, 14):
-                        if created_at_str is not None:  # Verifique se created_at_str_2 não é None
-                            next_time = (datetime.strptime(created_at_str, "%H:%M") + timedelta(minutes=i)).strftime(
-                                "%H:%M")
-                            multiplos_14.append(next_time)
-
-                    print(f"Lista de múltiplos criada para este zero: {multiplos_14}")
-
-                    # Adicione esta lista de múltiplos à lista de todas as listas de múltiplos
-                    todas_as_listas_de_multiplos.append(multiplos_14)
-
-            if roll == 0 and created_at_datetime.date() == datetime.now().date():
-                zeros.append(roll)
-                zero_times.append(created_at_str)
-                print(f"Zero encontrado em {created_at_str}")
+        if roll == 0:
+            if ((created_at_datetime_2.time() >= dt_time(22, 0) and created_at_datetime_2.date() == (
+                    datetime.now() - timedelta(days=1)).date()) or (
+                    created_at_datetime_2.time() < datetime.now().time() and created_at_datetime_2.date() == datetime.now().date())):
+                zeros_2.append(roll)
+                zero_times_2.append(created_at_str_2)
+                print(f"Zero encontrado em {created_at_str_2}")
                 multiplos_14 = []
 
-                cycles.append(f"Ciclo{cycle_count}")
-                print(f"cycle_numbers:{cycle_numbers}")
-                missing_numbers.append(list(cycle_numbers - current_cycle_numbers))
-                print(f"current_cycle_numbers:{current_cycle_numbers}")
-                print(f"missing_numbers:{missing_numbers}")
+                # Adicione os múltiplos de 14 a esta lista
+                for i in range(14, 262, 14):
+                    if created_at_str_2 is not None:  # Verifique se created_at_str_2 não é None
+                        next_time = (datetime.strptime(created_at_str_2, "%H:%M") + timedelta(minutes=i)).strftime(
+                            "%H:%M")
+                        multiplos_14.append(next_time)
 
-                if first_zero_found:
-                    intervals.append(interval_count)
-                interval_count = 0
-                first_zero_found = True
+                print(f"Lista de múltiplos criada para este zero: {multiplos_14}")
 
-                # Crie a "lista do zero"
-                zero_list = [created_at_str,
-                             (created_at_datetime - timedelta(minutes=1)).strftime("%H:%M"),
-                             (created_at_datetime + timedelta(minutes=1)).strftime("%H:%M")]
-                print(f"Lista do zero criada: {zero_list}")
+                # Adicione esta lista de múltiplos à lista de todas as listas de múltiplos
+                todas_as_listas_de_multiplos.append(multiplos_14)
 
-                if rolls:
-                    last_payer_index = -2
-                    while abs(last_payer_index) <= len(rolls) and rolls[
-                        last_payer_index] == 0:  # Continue procurando até encontrar um número não-zero
-                        last_payer_index -= 1
-                    if abs(last_payer_index) > len(rolls):
-                        last_payer = " "
-                    else:
-                        last_payer = rolls[last_payer_index]
-                    payers.append(last_payer)
-                    if last_payer != " ":
-                        current_cycle_numbers.add(last_payer)  # Adicione o número pagador a current_cycle_numbers aqui
+        if roll == 0 and created_at_datetime.date() == datetime.now().date():
 
-                    if cycle_numbers.issubset(current_cycle_numbers):
-                        print("Cycle completed!")
-                        last_payer = str(last_payer) + "F"
-                        payers[-1] = last_payer
-                        current_cycle_numbers = set()  # Reinicie current_cycle_numbers aqui
-                        cycle_count += 1  # Incrementa o contador de ciclos
+            zeros.append(roll)
+            zero_times.append(created_at_str)
+            print(f"Zero encontrado em {created_at_str}")
+            multiplos_14 = []
 
-            elif first_zero_found:
-                interval_count += 1
-                print(f"Roll:{roll}, Created at: {created_at_str}, Interval count: {interval_count}")
+            cycles.append(f"Ciclo{cycle_count}")
+            print(f"cycle_numbers:{cycle_numbers}")
+            missing_numbers.append(list(cycle_numbers - current_cycle_numbers))
+            print(f"current_cycle_numbers:{current_cycle_numbers}")
+            print(f"missing_numbers:{missing_numbers}")
 
-        time.sleep(1)
+            if first_zero_found:
+                intervals.append(interval_count)
+            interval_count = 0
+            first_zero_found = True
+
+            # Crie a "lista do zero"
+            zero_list = [created_at_str,
+                         (created_at_datetime - timedelta(minutes=1)).strftime("%H:%M"),
+                         (created_at_datetime + timedelta(minutes=1)).strftime("%H:%M")]
+            print(f"Lista do zero criada: {zero_list}")
+
+            if rolls:
+                last_payer_index = -2
+                while abs(last_payer_index) <= len(rolls) and rolls[
+                    last_payer_index] == 0:  # Continue procurando até encontrar um número não-zero
+                    last_payer_index -= 1
+                if abs(last_payer_index) > len(rolls):
+                    last_payer = " "
+                else:
+                    last_payer = rolls[last_payer_index]
+                payers.append(last_payer)
+                if last_payer != " ":
+                    current_cycle_numbers.add(last_payer)  # Adicione o número pagador a current_cycle_numbers aqui
+
+                if cycle_numbers.issubset(current_cycle_numbers):
+                    print("Cycle completed!")
+                    last_payer = str(last_payer) + "F"
+                    payers[-1] = last_payer
+                    current_cycle_numbers = set()  # Reinicie current_cycle_numbers aqui
+                    cycle_count += 1  # Incrementa o contador de ciclos
+
+        elif first_zero_found:
+            interval_count += 1
+            print(f"Roll:{roll}, Created at: {created_at_str}, Interval count: {interval_count}")
+
+    time.sleep(1)
+
 
 
     # ####################Nova análise de probabilidades
